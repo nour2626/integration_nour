@@ -1,36 +1,64 @@
 <?php
 
-require "../config.php";
+require_once '../../config.php';
+require_once '../../Model/User.php';
 
 class UserController
 {
-    public function userList()
+    private $pdo;
+
+    public function __construct()
     {
-        $sql = "SELECT * FROM Person";
-        $conn = Config::getConnexion();
-        try {
-            $query = $conn->query($sql);
-            return $query;
-        } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage());
-        }
+        $this->pdo = config::getConnexion();
     }
 
-    public function addUser($user)
-    {
-
-        $sql = "INSERT INTO person(id,name,age)
-        VALUES (NULL,:name,:age)";
-        $conn = Config::getConnexion();
-
-        try {
-            $query = $conn->prepare($sql);
-            $query->bindValue(':name', $user->getUserName());
-            $query->bindValue(':age', $user->getAge());
-            $query->execute();
-            echo "user inserted succcefully";
-        } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage());
-        }
+public function createUser($userName, $age, $email, $password, $photo = null, $role = 'user')
+{
+    // Check if the email already exists
+    $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
+    $stmt->execute([$email]);
+    if ($stmt->fetchColumn() > 0) {
+        throw new Exception('Email already exists');
     }
+
+    $user = new User($userName, $age, $email, $password, $photo, $role);
+    $user->setPassword(password_hash($password, PASSWORD_BCRYPT));
+
+    $stmt = $this->pdo->prepare('INSERT INTO users (userName, age, email, password, photo, role) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$user->getUserName(), $user->getAge(), $user->getEmail(), $user->getPassword(), $user->getPhoto(), $user->getRole()]);
+}
+
+    public function getUser($id)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    public function updateUser($id, $userName, $age, $email, $password, $photo = null, $role = 'user')
+    {
+        $user = new User($userName, $age, $email, $password, $photo, $role);
+        $user->setId($id);
+        $user->setPassword(password_hash($password, PASSWORD_BCRYPT));
+
+        $stmt = $this->pdo->prepare('UPDATE users SET userName = ?, age = ?, email = ?, password = ?, photo = ?, role = ? WHERE id = ?');
+        $stmt->execute([$user->getUserName(), $user->getAge(), $user->getEmail(), $user->getPassword(), $user->getPhoto(), $user->getRole(), $user->getId()]);
+    }
+
+    public function deleteUser($id)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+        $stmt->execute([$id]);
+    }
+    public function authenticateUser($email, $password) {
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
+        } else {
+            return false;
+        }
+}
 }
