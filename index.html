@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Experiences Forum</title>
+    <!-- Include stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/tooplate-style.css">
+    <style>
+        /* Cursor Animation */
+        body {
+            cursor: default;
+        }
+
+        .home-link {
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .cursor-effect {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 165, 0, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: transform 0.2s, background-color 0.3s;
+            z-index: 1000;
+            transform: scale(0);
+        }
+
+        /* Effect when cursor nears */
+        .home-link:hover {
+            color: #ff6600;
+            transform: scale(1.1);
+        }
+
+        .cursor-effect.active {
+            transform: scale(1.5);
+            background-color: rgba(255, 165, 0, 0.2);
+        }
+
+        .comment-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .comment-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="tm-top-bar">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand home-link" href="#home" id="homeButton">
+                    Back to Home Page
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <!-- Travel Experiences Comment Section -->
+        <section id="comment-section" class="comment-section">
+            <h2 class="comment-title">Share Your Travel Experience</h2>
+            <p>Have you visited an amazing place recently? Share your travel story with others!</p>
+            <form action="view/create_thread.php" method="POST">
+                <div class="form-group">
+                    <label for="user-name">Your Name</label>
+                    <input type="text" class="form-control" id="user-name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Where did you travel?" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-comment">Your Experience</label>
+                    <textarea class="form-control" id="user-comment" name="comment" rows="5" placeholder="Describe your experience..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Your Story</button>
+            </form>
+        </section>
+
+        <!-- Posted Travel Stories -->
+        <section id="posted-comments" class="mt-5">
+            <h3 class="comment-title">Recent Travel Stories</h3>
+            <div class="media mb-3">
+                <div class="media-body">
+                    <h5 class="mt-0">Alice - Paris, France</h5>
+                    <p>I recently visited Paris, and the Eiffel Tower at night was breathtaking. The food, especially the pastries, was amazing!</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-body">
+                    <h5 class="mt-0">Bob - Kyoto, Japan</h5>
+                    <p>The cherry blossoms in Kyoto were absolutely stunning! The temples and gardens were serene and a must-see for anyone visiting Japan.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="tm-bg-dark-blue p-4 text-center">
+        <p class="tm-font-light tm-color-white">
+            Copyright &copy; <span class="tm-current-year">2024</span> Travel Forum. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Add cursor effect element -->
+    <div id="cursorEffect" class="cursor-effect"></div>
+
+    <!-- Include JS files -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        // Set current year in footer
+        document.querySelector('.tm-current-year').textContent = new Date().getFullYear();
+
+        // Cursor effect
+        const cursorEffect = document.getElementById('cursorEffect');
+        const homeButton = document.getElementById('homeButton');
+
+        document.addEventListener('mousemove', (event) => {
+            cursorEffect.style.left = `${event.clientX}px`;
+            cursorEffect.style.top = `${event.clientY}px`;
+        });
+
+        homeButton.addEventListener('mouseenter', () => {
+            cursorEffect.classList.add('active');
+        });
+
+        homeButton.addEventListener('mouseleave', () => {
+            cursorEffect.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
