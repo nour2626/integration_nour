@@ -1,3 +1,20 @@
+<?php
+
+require_once '../../config.php';
+require_once '../../Controller/UserController.php';
+
+// Check if the user is logged in and is an admin
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+
+$userController = new UserController();
+$users = $userController->getAllUsers();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,10 +50,10 @@
             </button>
           </div>
           <div>
-            <a class="navbar-brand brand-logo" href="../../index.html">
+            <a class="navbar-brand brand-logo" href="../../backindex.php">
               <img src="../../assets/images/logo.svg" alt="logo" />
             </a>
-            <a class="navbar-brand brand-logo-mini" href="../../index.html">
+            <a class="navbar-brand brand-logo-mini" href="../../backindex.php">
               <img src="../../assets/images/logo-mini.svg" alt="logo" />
             </a>
           </div>
@@ -202,7 +219,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="../../index.html">
+              <a class="nav-link" href="../../backindex.php">
                 <i class="mdi mdi-grid-large menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>

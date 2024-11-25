@@ -35,14 +35,14 @@ public function createUser($userName, $age, $email, $password, $photo = null, $r
         return $stmt->fetch();
     }
 
-    public function updateUser($id, $userName, $age, $email, $password, $photo = null, $role = 'user')
+    public function updateUser($id, $userName, $age, $email, $password, $photo = null,)
     {
-        $user = new User($userName, $age, $email, $password, $photo, $role);
+        $user = new User($userName, $age, $email, $password, $photo);
         $user->setId($id);
         $user->setPassword(password_hash($password, PASSWORD_BCRYPT));
 
-        $stmt = $this->pdo->prepare('UPDATE users SET userName = ?, age = ?, email = ?, password = ?, photo = ?, role = ? WHERE id = ?');
-        $stmt->execute([$user->getUserName(), $user->getAge(), $user->getEmail(), $user->getPassword(), $user->getPhoto(), $user->getRole(), $user->getId()]);
+        $stmt = $this->pdo->prepare('UPDATE users SET userName = ?, age = ?, email = ?, password = ?, photo = ? WHERE id = ?');
+        $stmt->execute([$user->getUserName(), $user->getAge(), $user->getEmail(), $user->getPassword(), $user->getPhoto(), $user->getId()]);
     }
 
     public function deleteUser($id)
@@ -60,5 +60,11 @@ public function createUser($userName, $age, $email, $password, $photo = null, $r
         } else {
             return false;
         }
+    }
+
+        public function getAllUsers() {
+            $stmt = $this->pdo->query('SELECT * FROM users');
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 }
-}
+?>

@@ -3,23 +3,39 @@
 require_once '../../config.php';
 require_once '../../Controller/UserController.php';
 
+// Check if the user is logged in
+session_start();
+if (isset($_SESSION['user'])) {
+    header('Location: index.php'); // Redirect to the home page or another page
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
     $userController = new UserController();
-    $user = $userController->authenticateUser($email, $password);
+    $userDetails = $userController->authenticateUser($email, $password);
 
-    if ($user) {
-        // Start a session and store user information
-        session_start();
-        $_SESSION['user'] = $user;
-        header('Location: index.html'); // Redirect to a dashboard or home page
+    if ($userDetails) {
+        $userDetails = $userController->getUser($userDetails['id']);
+        $_SESSION['user'] = [
+            'id' => $userDetails['id'],
+            'userName' => $userDetails['userName'],
+            'photo' => $userDetails['photo'],
+            'email' => $userDetails['email'],
+            'age' => $userDetails['age'],
+            'role' => $userDetails['role'],
+            'password' => $userDetails['password']
+
+        ];
+        header('Location: index.php');
         exit();
     } else {
-        $error = 'Invalid email or password';
+        $error = "Invalid email or password.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-    <?php include 'header.php'; ?>
+<?php include 'include/header.php'; ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -63,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <?php include 'footer.php'; ?>
+<?php include 'include/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

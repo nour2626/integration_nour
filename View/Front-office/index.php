@@ -1,3 +1,12 @@
+<?php
+session_start(); // Start the session
+
+
+require_once '../../config.php';
+require_once '../../Controller/UserController.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,41 +40,7 @@ https://www.tooplate.com/view/2095-level
 </head>
 
     <body>
-        <div class="tm-main-content" id="top">
-            <div class="tm-top-bar-bg"></div>
-            <div class="tm-top-bar" id="tm-top-bar">
-                <!-- Top Navbar -->
-                <div class="container">
-                    <div class="row">
-                        
-                        <nav class="navbar navbar-expand-lg narbar-light">
-                            <a class="navbar-brand mr-auto" href="#">
-                                <img src="img/logo.png" alt="Site logo">
-                                Level
-                            </a>
-                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
-                                <ul class="navbar-nav ml-auto">
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-4">Portfolio</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-5">Blog Entries</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-6">Contact Us</a>
-                                  </li>
-                                </ul>
-                            </div>                            
-                        </nav>            
-                    </div>
-                </div>
-            </div>
+<?php include 'include/header.php'; ?>
             <div class="tm-section tm-bg-img" id="tm-section-1">
                 <div class="tm-bg-white ie-container-width-fix-2">
                     <div class="container ie-h-align-center-fix">
@@ -87,7 +62,7 @@ https://www.tooplate.com/view/2095-level
                                         </div>
                                     </div>
                                     <div class="form-row tm-search-form-row">
-                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                        <div class="form-group tm-form-element tm-form-element-2">
                                             <select name="adult" class="form-control tm-select" id="adult">
                                                 <option value="">Adult</option>
                                                 <option value="1">1</option>
@@ -103,7 +78,7 @@ https://www.tooplate.com/view/2095-level
                                             </select>
                                             <i class="fa fa-2x fa-user tm-form-element-icon"></i>
                                         </div>
-                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                        <div class="form-group tm-form-element tm-form-element-2">
                                             <select name="children" class="form-control tm-select" id="children">
                                                 <option value="">Children</option>
                                                 <option value="0">0</option>
@@ -145,12 +120,12 @@ https://www.tooplate.com/view/2095-level
                                           <a href="#" class="ie-10-ml-auto ml-auto mt-1 tm-font-semibold tm-color-primary">Need Help?</a>
                                       </div>
                                 </form>
-                            </div>                        
-                        </div>      
+                            </div>
+                        </div>
                     </div>
-                </div>                  
+                </div>
             </div>
-            
+
             <div class="tm-section-2">
                 <div class="container">
                     <div class="row">
@@ -158,59 +133,59 @@ https://www.tooplate.com/view/2095-level
                             <h2 class="tm-section-title">We are here to help you?</h2>
                             <p class="tm-color-white tm-section-subtitle">Subscribe to get our newsletters</p>
                             <a href="#" class="tm-color-white tm-btn-white-bordered">Subscribe Newletters</a>
-                        </div>                
+                        </div>
                     </div>
-                </div>        
+                </div>
             </div>
-            
+
             <div class="tm-section tm-position-relative">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" class="tm-section-down-arrow">
-                    <polygon fill="#ee5057" points="0,0  100,0  50,60"></polygon>                   
-                </svg> 
+                    <polygon fill="#ee5057" points="0,0  100,0  50,60"></polygon>
+                </svg>
                 <div class="container tm-pt-5 tm-pb-4">
                     <div class="row text-center">
-                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">                            
+                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
                             <i class="fa tm-fa-6x fa-legal tm-color-primary tm-margin-b-20"></i>
                             <h3 class="tm-color-primary tm-article-title-1">Level HTML Template by Tooplate website</h3>
                             <p>You are allowed to download, edit and use this template for your business or client websites.</p>
                             <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
                         </article>
-                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">                            
+                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
                             <i class="fa tm-fa-6x fa-plane tm-color-primary tm-margin-b-20"></i>
                             <h3 class="tm-color-primary tm-article-title-1">Original Website Template Producer</h3>
                             <p>You are NOT allowed to re-distribute the downloadable template ZIP file on any website.</p>
-                            <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>                            
+                            <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
                         </article>
-                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">                           
+                        <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
                             <i class="fa tm-fa-6x fa-life-saver tm-color-primary tm-margin-b-20"></i>
                             <h3 class="tm-color-primary tm-article-title-1">Contact us if you have any question</h3>
                             <p>If you see this template being distributed on any other site, that is an illegal copy.</p>
-                            <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>                           
+                            <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
                         </article>
-                    </div>        
+                    </div>
                 </div>
             </div>
-            
+
             <div class="tm-section tm-section-pad tm-bg-gray" id="tm-section-4">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                            <div class="tm-article-carousel">                            
+                            <div class="tm-article-carousel">
                                 <article class="tm-bg-white mr-2 tm-carousel-item">
                                     <img src="img/img-01.jpg" alt="Image" class="img-fluid">
                                     <div class="tm-article-pad">
                                         <header><h3 class="text-uppercase tm-article-title-2">Nunc in felis aliquet metus luctus iaculis</h3></header>
                                         <p>Aliquam ac lacus volutpat, dictum risus at, scelerisque nulla. Nullam sollicitudin at augue venenatis eleifend. Nulla ligula ligula, egestas sit amet viverra id, iaculis sit amet ligula.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">Get More Info.</a>
-                                    </div>                                
-                                </article>                    
+                                    </div>
+                                </article>
                                 <article class="tm-bg-white mr-2 tm-carousel-item">
                                     <img src="img/img-02.jpg" alt="Image" class="img-fluid">
                                     <div class="tm-article-pad">
                                         <header><h3 class="text-uppercase tm-article-title-2">Sed cursus dictum nunc quis molestie</h3></header>
                                         <p>Pellentesque quis dui sit amet purus scelerisque eleifend sed ut eros. Morbi viverra blandit massa in varius. Sed nec ex eu ex tincidunt iaculis. Curabitur eget turpis gravida.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">View Detail</a>
-                                    </div>                                
+                                    </div>
                                 </article>
                                 <article class="tm-bg-white mr-2 tm-carousel-item">
                                     <img src="img/img-01.jpg" alt="Image" class="img-fluid">
@@ -218,7 +193,7 @@ https://www.tooplate.com/view/2095-level
                                         <header><h3 class="text-uppercase tm-article-title-2">Eget diam pellentesque interdum ut porta</h3></header>
                                         <p>Aenean finibus tempor nulla, et maximus nibh dapibus ac. Duis consequat sed sapien venenatis consequat. Aliquam ac lacus volutpat, dictum risus at, scelerisque nulla.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">More Info.</a>
-                                    </div>                                
+                                    </div>
                                 </article>
                                 <article class="tm-bg-white mr-2 tm-carousel-item">
                                     <img src="img/img-02.jpg" alt="Image" class="img-fluid">
@@ -226,15 +201,15 @@ https://www.tooplate.com/view/2095-level
                                         <header><h3 class="text-uppercase tm-article-title-2">Lorem ipsum dolor sit amet, consectetur</h3></header>
                                         <p>Suspendisse molestie sed dui eget faucibus. Duis accumsan sagittis tortor in ultrices. Praesent tortor ante, fringilla ac nibh porttitor, fermentum commodo nulla.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">Detail Info.</a>
-                                    </div>                                
-                                </article>                    
+                                    </div>
+                                </article>
                                 <article class="tm-bg-white mr-2 tm-carousel-item">
                                     <img src="img/img-01.jpg" alt="Image" class="img-fluid">
                                     <div class="tm-article-pad">
                                         <header><h3 class="text-uppercase tm-article-title-2">Orci varius natoque penatibus et</h3></header>
                                         <p>Pellentesque quis dui sit amet purus scelerisque eleifend sed ut eros. Morbi viverra blandit massa in varius. Sed nec ex eu ex tincidunt iaculis. Curabitur eget turpis gravida.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">Read More</a>
-                                    </div>                                
+                                    </div>
                                 </article>
                                 <article class="tm-bg-white tm-carousel-item">
                                     <img src="img/img-02.jpg" alt="Image" class="img-fluid">
@@ -242,11 +217,11 @@ https://www.tooplate.com/view/2095-level
                                         <header><h3 class="text-uppercase tm-article-title-2">Nullam sollicitudin at augue venenatis eleifend</h3></header>
                                         <p>Aenean finibus tempor nulla, et maximus nibh dapibus ac. Duis consequat sed sapien venenatis consequat. Aliquam ac lacus volutpat, dictum risus at, scelerisque nulla.</p>
                                         <a href="#" class="text-uppercase btn-primary tm-btn-primary">More Details</a>
-                                    </div>                                
+                                    </div>
                                 </article>
-                            </div>    
+                            </div>
                         </div>
-                        
+
                         <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-recommended-container">
                             <div class="tm-bg-white">
                                 <div class="tm-bg-primary tm-sidebar-pad">
@@ -258,7 +233,7 @@ https://www.tooplate.com/view/2095-level
                                         <img src="img/tn-img-01.jpg" alt="Image">
                                         <div class="media-body tm-media-body tm-bg-gray">
                                             <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Europe</h4>
-                                        </div>                                        
+                                        </div>
                                     </a>
                                     <a href="#" class="media tm-media tm-recommended-item">
                                         <img src="img/tn-img-02.jpg" alt="Image">
@@ -279,7 +254,7 @@ https://www.tooplate.com/view/2095-level
                                         </div>
                                     </a>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,7 +270,7 @@ https://www.tooplate.com/view/2095-level
                     <source src="videos/video.ogg" type="video/ogg">
                     Your browser does not support the video tag.
                 </video>
-                <div class="tm-section tm-section-pad tm-bg-img" id="tm-section-5">                                                        
+                <div class="tm-section tm-section-pad tm-bg-img" id="tm-section-5">
                     <div class="container ie-h-align-center-fix">
                         <div class="row tm-flex-align-center">
                             <div class="col-xs-12 col-md-12 col-lg-3 col-xl-3 tm-media-title-container">
@@ -308,10 +283,10 @@ https://www.tooplate.com/view/2095-level
                                         <img src="img/img-03.jpg" alt="Image">
                                         <div class="media-body tm-media-body-1 tm-media-body-v-center">
                                             <h3 class="tm-font-semibold tm-color-primary tm-article-title-3">Suspendisse vel est libero sem phasellus ac laoreet</h3>
-                                            <p>Vivamus eget tellus ornare, sollicitudin quam id, dictum nulla. Phasellus finibus rhoncus justo, tempus eleifend neque dictum ac. Aenean metus leo, consectetur non. 
+                                            <p>Vivamus eget tellus ornare, sollicitudin quam id, dictum nulla. Phasellus finibus rhoncus justo, tempus eleifend neque dictum ac. Aenean metus leo, consectetur non.
                                             <br><br>
 											Etiam aliquam arcu at mauris consectetur scelerisque. Integer elementum justo in orci facilisis ultricies. Pellentesque at velit ante. Duis scelerisque metus vel felis porttitor gravida.</p>
-                                        </div>                                
+                                        </div>
                                     </article>
                                     <article class="media tm-margin-b-20 tm-media-1">
                                         <img src="img/img-04.jpg" alt="Image">
@@ -319,7 +294,7 @@ https://www.tooplate.com/view/2095-level
                                             <h3 class="tm-font-semibold tm-article-title-3">Suspendisse vel est libero sem phasellus ac laoreet</h3>
                                             <p>Duis accumsan sagittis tortor in ultrices. Praesent tortor ante, fringilla ac nibh porttitor, fermentum commodo nulla.</p>
                                             <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
-                                        </div>                                
+                                        </div>
                                     </article>
                                     <article class="media tm-margin-b-20 tm-media-1">
                                         <img src="img/img-05.jpg" alt="Image">
@@ -327,20 +302,20 @@ https://www.tooplate.com/view/2095-level
                                             <h3 class="tm-font-semibold tm-article-title-3">Faucibus dolor ligula nisl metus auctor aliquet</h3>
                                             <p>Nunc in felis aliquet metus luctus iaculis vel et nisi. Nulla venenatis nisl orci, laoreet ultricies massa tristique id.</p>
                                             <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
-                                        </div>                                
+                                        </div>
                                     </article>
-                                </div>                            
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>           
-            
+            </div>
+
             <div class="tm-section tm-section-pad tm-bg-img tm-position-relative" id="tm-section-6">
                 <div class="container ie-h-align-center-fix">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-7">
-                            <div id="google-map"></div>        
+                            <div id="google-map"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 mt-3 mt-md-0">
                             <div class="tm-bg-white tm-p-4">
@@ -359,31 +334,38 @@ https://www.tooplate.com/view/2095-level
                                     </div>
                                     <button type="submit" class="btn btn-primary tm-btn-primary">Send Message Now</button>
                                 </form>
-                            </div>                            
+                            </div>
                         </div>
-                    </div>        
+                    </div>
                 </div>
             </div>
-            
+
             <footer class="tm-bg-dark-blue">
                 <div class="container">
                     <div class="row">
                         <p class="col-sm-12 text-center tm-font-light tm-color-white p-4 tm-margin-b-0">
-                        Copyright &copy; <span class="tm-current-year">2018</span> Your Company
-                        
-                        - Design: <a rel="nofollow" href="https://www.tooplate.com" class="tm-color-primary tm-font-normal" target="_parent">Tooplate</a></p>        
+                        Copyright &copy; <span class="tm-current-year">2024</span> Spiders
+
                     </div>
-                </div>                
+                </div>
             </footer>
         </div>
-        
+
         <!-- load JS files -->
         <script src="js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
-        <script src="js/popper.min.js"></script>                    <!-- https://popper.js.org/ -->       
+        <script src="js/popper.min.js"></script>                    <!-- https://popper.js.org/ -->
         <script src="js/bootstrap.min.js"></script>                 <!-- https://getbootstrap.com/ -->
         <script src="js/datepicker.min.js"></script>                <!-- https://github.com/qodesmith/datepicker -->
         <script src="js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
         <script src="slick/slick.min.js"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+          $(document).ready(function() {
+              $('.dropdown-toggle').dropdown();
+          });
+        </script>
         <script>
 
             /* Google map

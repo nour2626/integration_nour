@@ -3,21 +3,60 @@
 require_once '../../config.php';
 require_once '../../Controller/UserController.php';
 
+// Check if the user is logged in
+session_start();
+if (isset($_SESSION['user'])) {
+    header('Location: index.php'); // Redirect to the home page or another page
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userName = $_POST['userName'];
-    $age = $_POST['age'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $userName = trim($_POST['userName']);
+    $age = trim($_POST['age']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
     $photo = isset($_FILES['photo']) ? $_FILES['photo']['name'] : null;
 
-    $userController = new UserController();
+    $errors = [];
 
-    try {
-        $userController->createUser($userName, $age, $email, $password, $photo);
-        header('Location: login.php'); // Redirect to login page after successful registration
-        exit();
-    } catch (Exception $e) {
-        $error = $e->getMessage();
+    // Validate username
+    if (empty($userName)) {
+        $errors[] = "Username is required.";
+    } elseif (!preg_match("/^[a-zA-Z0-9_]{3,20}$/", $userName)) {
+        $errors[] = "Username must be 3-20 characters long and can only contain letters, numbers, and underscores.";
+    }
+
+    // Validate age
+    if (empty($age)) {
+        $errors[] = "Age is required.";
+    } elseif (!filter_var($age, FILTER_VALIDATE_INT) || $age < 1 || $age > 120) {
+        $errors[] = "Age must be a valid number between 1 and 120.";
+    }
+
+    // Validate email
+    if (empty($email)) {
+        $errors[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+
+    // Validate password
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    } elseif (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters long.";
+    }
+
+    if (empty($errors)) {
+        $userController = new UserController();
+
+        try {
+            $userController->createUser($userName, $age, $email, $password, $photo);
+            header('Location: login.php'); // Redirect to login page after successful registration
+            exit();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
     }
 }
 ?>
@@ -32,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-    <?php include 'header.php'; ?>
+<?php include 'include/header.php'; ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -41,8 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h2>Inscription</h2>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger"><?php echo $error; ?></div>
+                        <?php if (!empty($errors)): ?>
+                            <div class="alert alert-danger">
+                                <?php foreach ($errors as $error): ?>
+                                    <p><?php echo $error; ?></p>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="form-group">
@@ -72,6 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <?php include 'footer.php'; ?>
+<?php include 'include/footer.php'; ?>
 </body>
 </html>
