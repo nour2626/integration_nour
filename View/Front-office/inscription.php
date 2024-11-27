@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $age = trim($_POST['age']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+    $cpassword = trim($_POST['cpassword']);
     $photo = isset($_FILES['photo']) ? $_FILES['photo']['name'] : null;
 
     $errors = [];
@@ -38,6 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Email is required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
+    } else {
+        $userController = new UserController();
+        if ($userController->emailExists($email)) {
+            $errors[] = "Email already exists.";
+        }
     }
 
     // Validate password
@@ -45,7 +51,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Password is required.";
     } elseif (strlen($password) < 6) {
         $errors[] = "Password must be at least 6 characters long.";
+    } elseif ($password !== $cpassword) {
+        $errors[] = "Passwords do not match.";
     }
+
+        $photo = $userDetails['photo']; // Keep current photo if no new upload
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+            // Validate file type and size (example: max 1MB and only JPG, PNG, or GIF files)
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            $fileType = mime_content_type($_FILES['photo']['tmp_name']);
+            $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+            if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                // Generate a unique file name and save the file
+                $photoPath = 'uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
+                if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
+                    echo 'Failed to upload file';
+                    exit;
+                }
+                $photo = $photoPath; // Update photo path
+            } else {
+                echo 'Invalid file type or size';
+                exit;
+            }
+        }
 
     if (empty($errors)) {
         $userController = new UserController();
@@ -90,19 +118,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="userName">Username:</label>
-                                <input type="text" id="userName" name="userName" class="form-control" required>
+                                <input type="text" id="userName" name="userName" class="form-control" placeholder="Your name">
                             </div>
                             <div class="form-group">
                                 <label for="age">Age:</label>
-                                <input type="number" id="age" name="age" class="form-control" required>
+                                <input type="number" id="age" name="age" class="form-control" placeholder="Age">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="email" >
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control" required>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="enter password" >
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Confirm Password:</label>
+                                <input type="password" id="password" name="cpassword" class="form-control" placeholder="confirm password" >
                             </div>
                             <div class="form-group">
                                 <label for="photo">Photo (optional):</label>

@@ -1,6 +1,7 @@
 <?php
 session_start(); // Start the session
 
+
 require_once '../../config.php';
 require_once '../../Controller/UserController.php';
 if (!isset($_SESSION['user']['id'])) {
@@ -11,18 +12,22 @@ if (!isset($_SESSION['user']['id'])) {
 $userController = new UserController();
 $userDetails = $userController->getUser($_SESSION['user']['id']);
 
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize input data
     $userName = htmlspecialchars(trim($_POST['userName']), ENT_QUOTES, 'UTF-8');
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $age = filter_var(trim($_POST['age']), FILTER_SANITIZE_NUMBER_INT);
-    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $userDetails['password'];
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email format";
-        exit;
+        $errors[] = "Invalid email format";
+    }
+
+    // Check if the email already exists for a different user
+    if ($userController->emailExists($email) && $email !== $userDetails['email']) {
+        $errors[] = "Email already exists.";
     }
 
     // Handle profile image upload
@@ -36,30 +41,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generate a unique file name and save the file
             $photoPath = 'uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
-                echo 'Failed to upload file';
-                exit;
+                $errors[] = 'Failed to upload file';
+            } else {
+                $photo = $photoPath; // Update photo path
             }
-            $photo = $photoPath; // Update photo path
         } else {
-            echo 'Invalid file type or size';
-            exit;
+            $errors[] = 'Invalid file type or size';
         }
     }
 
-    // Update user details
-    $userId = $_SESSION['user']['id'];
-    try {
-        $userController->updateUser($userId, $userName, $age, $email, $password, $photo);
-        // Update session details
-        $_SESSION['user']['userName'] = $userName;
-        $_SESSION['user']['email'] = $email;
-        $_SESSION['user']['age'] = $age;
-        $_SESSION['user']['photo'] = $photo;
-        $_SESSION['user']['password'] = $password;
+    // Update user details if no errors
+    if (empty($errors)) {
+        $userId = $_SESSION['user']['id'];
+        try {
+            $userController->updateUser($userId, $userName, $age, $email, $photo);
+            // Update session details
+            $_SESSION['user']['userName'] = $userName;
+            $_SESSION['user']['email'] = $email;
+            $_SESSION['user']['age'] = $age;
+            $_SESSION['user']['photo'] = $photo;
 
-        echo 'Profile updated successfully';
-    } catch (Exception $e) {
-        echo 'An error occurred while updating the profile: ' . $e->getMessage();
+            echo 'Profile updated successfully';
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
     }
 }
 ?>
@@ -85,6 +90,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="row">
             <div class="col-12">
                 <h2 class="tm-section-title">User Profile</h2>
+                                    <div class="card-body">
+                                        <?php if (!empty($errors)): ?>
+                                            <div class="alert alert-danger">
+                                                <?php foreach ($errors as $error): ?>
+                                                    <p><?php echo $error; ?></p>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
                 <div class="tm-bg-white tm-p-4">
                     <div class="row">
                         <div class="col-md-4">
@@ -94,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h3><?php echo htmlspecialchars($_SESSION['user']['userName'], ENT_QUOTES, 'UTF-8'); ?></h3>
                             <p>Email: <?php echo htmlspecialchars($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?></p>
                             <p>Age: <?php echo htmlspecialchars($_SESSION['user']['age'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p>role: <?php echo htmlspecialchars($_SESSION['user']['role'], ENT_QUOTES, 'UTF-8'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -102,19 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form method="POST" action="" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="userName">Username</label>
-                            <input type="text" class="form-control" id="userName" name="userName" value="<?php echo htmlspecialchars($_SESSION['user']['userName'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                            <input type="text" class="form-control" id="userName" name="userName" value="<?php echo htmlspecialchars($_SESSION['user']['userName'], ENT_QUOTES, 'UTF-8'); ?>" >
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <div class="form-group">
                             <label for="age">Age</label>
-                            <input type="number" class="form-control" id="age" name="age" value="<?php echo htmlspecialchars($_SESSION['user']['age'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                            <input type="number" class="form-control" id="age" name="age" value="<?php echo htmlspecialchars($_SESSION['user']['age'], ENT_QUOTES, 'UTF-8'); ?>" >
                         </div>
                         <div class="form-group">
-                            <label for="password">New Password (Leave blank to keep current password)</label>
-                            <input type="password" class="form-control" id="password" name="password">
+                            <a href="reset-password.php" class="btn btn-secondary">Reset Password</a>
                         </div>
                         <div class="form-group">
                             <label for="photo">Profile Picture</label>
