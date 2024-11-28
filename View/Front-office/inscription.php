@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
             if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
                 // Generate a unique file name and save the file
-                $photoPath = 'uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
+                $photoPath = '../../uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
                 if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
                     echo 'Failed to upload file';
                     exit;

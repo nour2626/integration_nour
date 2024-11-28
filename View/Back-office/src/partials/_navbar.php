@@ -6,10 +6,10 @@
       </button>
     </div>
     <div>
-      <a class="navbar-brand brand-logo" href="../backindex.php">
+      <a class="navbar-brand brand-logo" href="http://localhost/Projectweb25/View/Back-office/bindex.php">
         <img src="../assets/images/logo.svg" alt="logo" />
       </a>
-      <a class="navbar-brand brand-logo-mini" href="../backindex.php">
+      <a class="navbar-brand brand-logo-mini" href="../../bindex.php">
         <img src="../assets/images/logo-mini.svg" alt="logo" />
       </a>
     </div>
@@ -160,8 +160,9 @@
           <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
           <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
           <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-          <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
-        </div>
+<a class="dropdown-item" href="http://localhost/Projectweb25/View/Back-office/blogout.php">
+  <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out
+</a>        </div>
       </li>
     </ul>
     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">

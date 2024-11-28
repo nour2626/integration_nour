@@ -1,7 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item">
-      <a class="nav-link" href="../backindex.php">
+      <a class="nav-link" href="http://localhost/Projectweb25/View/Back-office/bindex.php">
         <i class="mdi mdi-grid-large menu-icon"></i>
         <span class="menu-title">Dashboard</span>
       </a>
@@ -53,7 +53,7 @@
       </a>
       <div class="collapse" id="tables">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">Basic table</a></li>
+          <li class="nav-item"> <a class="nav-link" href="src/pages/tables/basic-table.html">Basic table</a></li>
         </ul>
       </div>
     </li>
@@ -77,8 +77,7 @@
       </a>
       <div class="collapse" id="auth">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="../../users-list.php"> Users list</a></li>
-          <li class="nav-item"> <a class="nav-link" href="../pages/samples/blank-page.html"> Blank Page </a></li>
+          <li class="nav-item"> <a class="nav-link" href="user-list.php"> User List </a></li>
           <li class="nav-item"> <a class="nav-link" href="../pages/samples/error-404.html"> 404 </a></li>
           <li class="nav-item"> <a class="nav-link" href="../pages/samples/error-500.html"> 500 </a></li>
           <li class="nav-item"> <a class="nav-link" href="../pages/samples/login.html"> Login </a></li>

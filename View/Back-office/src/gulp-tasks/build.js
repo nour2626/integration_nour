@@ -10,14 +10,14 @@ function CopyAssetsToTheme() {
     let copyVendors = gulp.src('./assets/vendors/**/*').pipe(gulp.dest(`../dist/assets/vendors`));
     let copyFonts = gulp.src('./assets/fonts/**/*').pipe(gulp.dest(`../dist/assets/fonts`));
     let copyThemeCss = gulp.src('./assets/css/**/*').pipe(gulp.dest('../dist/assets/css'))
-    let copyEntry = gulp.src('./index.php').pipe(gulp.dest('../dist/'));
+    let copyEntry = gulp.src('./bindex.php').pipe(gulp.dest('../dist/'));
     let copyPages = gulp.src('./pages/**/*').pipe(gulp.dest('../dist/pages'));
     let copyDocs = gulp.src('./docs/**/*').pipe(gulp.dest('../dist/docs/'));
     return merge(copyImages, copyJs, copyVendors, copyFonts, copyEntry, copyThemeCss, copyDocs, copyPages, copyFonts)
 }
 
 gulp.task('replacePaths', () => {
-    let replacePath1 = gulp.src(['./index.php'], {base: '../dist'})
+    let replacePath1 = gulp.src(['./bindex.php'], {base: '../dist'})
         .pipe(replace('="../../assets', '="assets'))
         .pipe(gulp.dest('../dist'))
     let replacePath2 = gulp.src(['./pages/**/*.html'], {base: '../dist'})

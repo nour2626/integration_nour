@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
         if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
             // Generate a unique file name and save the file
-            $photoPath = 'uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
+            $photoPath = '../../uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
                 $errors[] = 'Failed to upload file';
             } else {
@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-12">
                 <h2 class="tm-section-title">User Profile</h2>
                                     <div class="card-body">
+
                                         <?php if (!empty($errors)): ?>
                                             <div class="alert alert-danger">
                                                 <?php foreach ($errors as $error): ?>
@@ -107,7 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h3><?php echo htmlspecialchars($_SESSION['user']['userName'], ENT_QUOTES, 'UTF-8'); ?></h3>
                             <p>Email: <?php echo htmlspecialchars($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?></p>
                             <p>Age: <?php echo htmlspecialchars($_SESSION['user']['age'], ENT_QUOTES, 'UTF-8'); ?></p>
-                            <p>role: <?php echo htmlspecialchars($_SESSION['user']['role'], ENT_QUOTES, 'UTF-8'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -155,3 +155,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include 'include/footer.php'; ?>
 </body>
 </html>
+
+
+         <div class="container">
+              <h1>Users List</h1>
+              <table class="table table-striped table-bordered">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th>ID</th>
+                          <th>Username</th>
+                          <th>Age</th>
+                          <th>Email</th>
+                          <th>Role</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <?php foreach ($users as $user): ?>
+                      <tr>
+                          <td><?php echo htmlspecialchars($user['id']); ?></td>
+                          <td><?php echo htmlspecialchars($user['username']); ?></td>
+                          <td><?php echo htmlspecialchars($user['age']); ?></td>
+                          <td><?php echo htmlspecialchars($user['email']); ?></td>
+                          <td><?php echo htmlspecialchars($user['role']); ?></td>
+                      </tr>
+                      <?php endforeach; ?>
+                  </tbody>
+              </table>
+          </div>

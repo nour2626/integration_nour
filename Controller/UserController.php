@@ -1,7 +1,7 @@
 <?php
 
-require_once '../../config.php';
-require_once '../../Model/User.php';
+require_once 'C:\xampp\htdocs\myproject\web\Projectweb25\Config.php';
+require_once 'C:\xampp\htdocs\myproject\web\Projectweb25\Model\User.php';
 
 class UserController
 {

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'photo' => $userDetails['photo'],
             'email' => $userDetails['email'],
             'age' => $userDetails['age'],
-            'role' => $userDetails['role'],
+            'role' => $userDetails['Role'],
             'password' => $userDetails['password']
 
         ];

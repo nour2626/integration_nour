@@ -64,7 +64,7 @@
                                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                           <a class="dropdown-item" href="profile.php"> <?php echo $_SESSION['user']['userName']; ?></a>
                                           <?php if ($_SESSION['user']['role'] === 'admin'): ?>
-                                              <a class="dropdown-item" href="settings.php">Settings</a>
+                                              <a class="dropdown-item" href="http://localhost/Projectweb25/View/Back-office/reauthenticate.php">Settings</a>
                                           <?php endif; ?>
                                           <a class="dropdown-item" href="logout.php">Logout</a>
                                       </div>
