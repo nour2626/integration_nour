@@ -45,10 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css"/>
+    <link rel="stylesheet" href="css/tooplate-style.css">
 </head>
 <body>
-<?php include 'include/header.php'; ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -73,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </form>
                         <div class="mt-3">
                             <p>Not a user? <a href="inscription.php">Register now</a></p>
+                        </div>
+                        <div class="mt-3">
+                            <p>Forgot Password? <a href="reset-password.php">Reset password</a></p>
                         </div>
                     </div>
                 </div>

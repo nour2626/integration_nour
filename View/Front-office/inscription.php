@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-<?php include 'include/header.php'; ?>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
