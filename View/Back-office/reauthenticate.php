@@ -6,8 +6,11 @@ require_once '../../Controller/UserController.php';
 // Start the session
 session_start();
 
-// Destroy the current session
-session_destroy();
+// Check if the user is already authenticated for the back-office
+if (isset($_SESSION['back_office_user'])) {
+    header('Location: bindex.php');
+    exit();
+}
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,18 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userDetails = $userController->authenticateUser($email, $password);
 
     if ($userDetails) {
-        session_start();
         $userDetails = $userController->getUser($userDetails['id']);
-        $_SESSION['user'] = [
+        $_SESSION['back_office_user'] = [
             'id' => $userDetails['id'],
             'userName' => $userDetails['userName'],
             'photo' => $userDetails['photo'],
             'email' => $userDetails['email'],
             'age' => $userDetails['age'],
-            'role' => $userDetails['Role'],
             'password' => $userDetails['password']
         ];
-        header('Location: bindex.php'); // Redirect to the home page or another page
+        header('Location: bindex.php');
         exit();
     } else {
         $error = "Invalid email or password.";
