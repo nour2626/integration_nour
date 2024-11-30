@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once 'C:\xampp\htdocs\myproject\web\Projectweb25\Controller\UserController.php';
+require_once 'C:\xampp\htdocs\myproject\web\Projectweb25\config.php';
 
 // Check if the user is authenticated for the back-office
 if (!isset($_SESSION['back_office_user'])) {

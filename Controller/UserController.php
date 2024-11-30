@@ -82,10 +82,19 @@ public function updateUser($id, $userName, $age, $email, $photo = null)
         }
     }
 
-        public function getAllUsers() {
-            $stmt = $this->pdo->query('SELECT * FROM users');
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getAllUsers($limit = 10, $offset = 0, $sortField = 'userName', $sortOrder = 'asc') {
+        $validSortFields = ['userName', 'email', 'age', 'created_at', 'updated_at'];
+        if (!in_array($sortField, $validSortFields)) {
+            $sortField = 'userName';
         }
+        $sortOrder = strtolower($sortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $stmt = $this->pdo->prepare("SELECT * FROM users ORDER BY $sortField $sortOrder LIMIT ? OFFSET ?");
+        $stmt->bindValue(1, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(2, (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public function emailExists($email) {
