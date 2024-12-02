@@ -1,0 +1,146 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+}
+
+.header {
+    background-color: #4267B2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.chat-container {
+    display: flex;
+    height: 90vh;
+}
+
+.contacts {
+    width: 250px;
+    background-color: white;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.contacts ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contacts li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+.contacts img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.contacts li:hover {
+    background-color: #f5f6f7;
+}
+
+.chat {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.message.sent {
+    justify-content: flex-end;
+}
+
+.message.received {
+    justify-content: flex-start;
+}
+
+.message p {
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 60%;
+}
+
+.message.sent p {
+    background-color: #4267B2;
+    color: white;
+}
+
+.message.received p {
+    background-color: #e4e6eb;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    position: relative;
+}
+
+.input-area textarea {
+    width: 70%;
+    padding: 10px;
+    border-radius: 18px;
+    border: 1px solid #ddd;
+    resize: none;
+    height: 40px;
+}
+
+.input-area button {
+    background-color: #4267B2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.input-area button:hover {
+    background-color: #365899;
+}
+
+/* Styling for the icons */
+.input-area .upload-icon {
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #4267B2;
+}
+
+.input-area .upload-icon:hover {
+    color: #365899;
+}
+
+/* Hidden file inputs for image and video */
+.file-input {
+    display: none;
+}

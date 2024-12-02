@@ -7,7 +7,7 @@ session_start();
 // Check if the user is authenticated for the back-office
 if (!isset($_SESSION['back_office_user'])) {
     header('Location: reauthenticate.php');
-    exit();
+    exit();  // No further code execution, this ensures no unwanted output
 }
 
 $errors = [];
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileType = mime_content_type($_FILES['photo']['tmp_name']);
         $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
         if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
-            $uploadDir = 'C:\xampp\htdocs\myproject\web\Projectweb25\uploads\\';
+            $uploadDir = 'uploads/';
             $photoPath = $uploadDir . uniqid('profile_', true) . '.' . $fileExtension;
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
                 $errors[] = 'Failed to upload file';
@@ -51,18 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update user details if no errors
+    header('Content-Type: application/json'); // Ensure JSON response for all outcomes
     if (empty($errors)) {
         $result = $userController->updateUser($userId, $userName, $age, $email, $photo);
 
-        header('Content-Type: application/json'); // Added header for JSON response
         if ($result) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Error updating user']);
         }
     } else {
-        header('Content-Type: application/json'); // Added header for JSON response
         echo json_encode(['success' => false, 'errors' => $errors]);
     }
+
+    exit();  // Prevent further output or any unwanted behavior
 }
-?>

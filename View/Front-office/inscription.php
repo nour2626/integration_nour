@@ -55,25 +55,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Passwords do not match.";
     }
 
-        $photo = $userDetails['photo']; // Keep current photo if no new upload
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            // Validate file type and size (example: max 1MB and only JPG, PNG, or GIF files)
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            $fileType = mime_content_type($_FILES['photo']['tmp_name']);
-            $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-            if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
-                // Generate a unique file name and save the file
-                $photoPath = '../../uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
-                if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
-                    echo 'Failed to upload file';
-                    exit;
-                }
-                $photo = $photoPath; // Update photo path
-            } else {
-                echo 'Invalid file type or size';
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        // Validate file type and size (example: max 1MB and only JPG, PNG, or GIF files)
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $fileType = mime_content_type($_FILES['photo']['tmp_name']);
+        $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        if (in_array($fileType, $allowedTypes) && $_FILES['photo']['size'] <= 1048576 && in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            // Generate a unique file name and save the file
+            $photoPath = '../../uploads/' . uniqid('profile_', true) . '.' . $fileExtension;
+            if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
+                echo 'Failed to upload file';
                 exit;
             }
+            $photo = $photoPath; // Update photo path
+        } else {
+            echo 'Invalid file type or size';
+            exit;
         }
+    }
 
     if (empty($errors)) {
         $userController = new UserController();
