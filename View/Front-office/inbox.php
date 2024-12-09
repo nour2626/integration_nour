@@ -125,8 +125,33 @@ function updateHeader(userName, isOnline) {
 }
 
 function handleUserClick(userId, userName) {
-    // Fetch the user's online status (this should be done via an AJAX call or similar)
     const isOnline = document.querySelector(`li[data-receiver-id="${userId}"] .online-status`) !== null;
     updateHeader(userName, isOnline);
 }
+
+
+const ws = new WebSocket('ws://localhost:8080');
+
+ws.onmessage = function(event) {
+    const message = JSON.parse(event.data);
+    displayMessage(message);
+};
+
+function sendMessage(content) {
+    const message = {
+        sender: 'User',
+        content: content,
+        timestamp: new Date().toISOString()
+    };
+    ws.send(JSON.stringify(message));
+    displayMessage(message);
+}
+
+function displayMessage(message) {
+    const messagesDiv = document.querySelector('.messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.innerHTML = `<p><strong>${message.sender}:</strong></p><p>${message.content}</p><span class="timestamp">${message.timestamp}</span>`;
+    messagesDiv.appendChild(messageDiv);
+}
+</script>
 
