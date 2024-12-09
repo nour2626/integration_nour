@@ -1,24 +1,24 @@
 <?php
+require('../../../../controller/Replycontroller.php');  // Include your controller file
 
-require_once('config.php');
-$replyId = $_GET['reply_id'];  
+if (isset($_GET['reply_id'])) {
+    $reply_id = $_GET['reply_id'];  // Get the reply ID from the URL
 
-if ($replyId) {
-    try {
-        $sql = "DELETE FROM replies WHERE reply_id = :reply_id";
-        $db = new config();
-        $conn = $db->getConnexion();
-        $query = $conn->prepare($sql);
-        $query->execute(['reply_id' => $replyId]);
+    // Create an instance of the controller
+    $threadController = new ReplyController ();
 
-        
-        header("Location: view_threads.php");
+    // Call the function to delete the reply
+    $deleted = $threadController->supprimerReply($reply_id);
+
+    // If deleted successfully, redirect to the page with the thread
+    if ($deleted) {
+        header('Location: view_threads.php');  // Adjust to your desired location after deletion
         exit();
-
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
+    } else {
+        echo "Error deleting reply.";
     }
 } else {
-    echo 'No reply ID provided.';
+    echo "No reply ID provided!";
+    exit();
 }
 ?>
