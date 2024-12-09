@@ -126,5 +126,10 @@ public function updateUser($id, $userName, $age, $email, $photo = null)
         $stmt->bind_param("i", $userId);
         return $stmt->execute();
     }
+
+    public function saveFaceDescriptor($userId, $faceDescriptor) {
+        $stmt = $this->db->prepare("UPDATE users SET face_descriptor = :faceDescriptor WHERE id = :userId");
+        return $stmt->execute([':faceDescriptor' => $faceDescriptor, ':userId' => $userId]);
+    }
 }
 ?>

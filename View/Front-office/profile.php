@@ -134,6 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary">Update Profile</button>
+                                    <button type="button" id="setup-face-auth-btn">Set up Face Authentication</button>
+                                    <video id="video" width="720" height="560" autoplay muted style="display: none;"></video>
+                                    <button type="submit">Save</button>
                     </form>
                 </div>
             </div>
@@ -141,6 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <!-- Load JS files -->
+        <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+        <script src="js/face-auth-setup.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

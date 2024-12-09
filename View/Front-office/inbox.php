@@ -66,10 +66,11 @@ if (isset($_GET['receiver_id'])) {
         <div class="chat">
             <div class="messages">
                 <?php foreach ($messages as $message): ?>
-                    <div class="">
-                         <p><strong><?php echo htmlspecialchars($message['sender_name']); ?>:</strong></p>
+                    <div class="message">
+                        <p><strong><?php echo htmlspecialchars($message['sender_name']); ?>:</strong></p>
                         <p><?php echo htmlspecialchars($message['content']); ?></p>
-                        <span class="timestamp"><?php echo $message['timestamp']; ?></span>
+                        <span class="time"><?php echo date('H:i', strtotime($message['timestamp'])); ?></span>
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -150,7 +151,16 @@ function sendMessage(content) {
 function displayMessage(message) {
     const messagesDiv = document.querySelector('.messages');
     const messageDiv = document.createElement('div');
-    messageDiv.innerHTML = `<p><strong>${message.sender}:</strong></p><p>${message.content}</p><span class="timestamp">${message.timestamp}</span>`;
+    const messageDate = new Date(message.timestamp);
+    const time = messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(message.sender_id === currentUser.id ? 'sent' : 'received');
+    messageDiv.innerHTML = `
+        <p><strong>${message.sender}:</strong></p>
+        <p>${message.content}</p>
+        <span class="time">${time}</span>
+    `;
     messagesDiv.appendChild(messageDiv);
 }
 </script>
