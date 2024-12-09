@@ -2,9 +2,9 @@ const video = document.getElementById('video');
 const setupFaceAuthBtn = document.getElementById('setup-face-auth-btn');
 
 Promise.all([
-    faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-    faceapi.nets.faceRecognitionNet.loadFromUri('/models')
+    faceapi.nets.tinyFaceDetector.loadFromUri('/node_modules'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('/node_modules'),
+    faceapi.nets.faceRecognitionNet.loadFromUri('/node_modules')
 ]).then(() => {
     setupFaceAuthBtn.addEventListener('click', startVideo);
 });
