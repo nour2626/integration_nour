@@ -45,5 +45,14 @@ class MessageController {
         ');
         $stmt->execute([$senderId, $receiverId, $content, $mediaType, $mediaUrl]);
     }
+    public function getMessagesAjax() {
+
+        if (isset($_GET['receiver_id']) && isset($_SESSION['user']['id'])) {
+            $receiverId = $_GET['receiver_id'];
+            $senderId = $_SESSION['user']['id'];
+            $messages = $this->getMessages($senderId, $receiverId);
+            echo json_encode($messages);
+        }
+    }
 }
 ?>

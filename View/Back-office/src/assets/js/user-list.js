@@ -78,21 +78,47 @@ function loadUsers() {
                     }
                 });
             });
-
-            // Add event listeners for edit buttons
-            document.querySelectorAll('.edit-user').forEach(button => {
+            document.querySelectorAll('.ban-user').forEach(button => {
                 button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const userName = this.getAttribute('data-username');
-                    const userEmail = this.getAttribute('data-email');
-                    const userAge = this.getAttribute('data-age');
+                    const userId = this.getAttribute('data-id');
+                    if (confirm('Are you sure you want to ban this user?')) {
+                        fetch(`../../Controller/UserController.php?action=ban&id=${userId}`, {
+                            method: 'POST'
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('User has been banned successfully.');
+                                    this.style.display = 'none';
+                                    document.querySelector(`.unban-user[data-id="${userId}"]`).style.display = 'inline-block';
+                                } else {
+                                    alert('Failed to ban the user.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+                });
+            });
 
-                    document.getElementById('editUserId').value = id;
-                    document.getElementById('editUserName').value = userName;
-                    document.getElementById('editUserEmail').value = userEmail;
-                    document.getElementById('editUserAge').value = userAge;
-
-                    $('#editUserModal').modal('show');
+            document.querySelectorAll('.unban-user').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-id');
+                    if (confirm('Are you sure you want to unban this user?')) {
+                        fetch(`../../Controller/UserController.php?action=unban&id=${userId}`, {
+                            method: 'POST'
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('User has been unbanned successfully.');
+                                    this.style.display = 'none';
+                                    document.querySelector(`.ban-user[data-id="${userId}"]`).style.display = 'inline-block';
+                                } else {
+                                    alert('Failed to unban the user.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
                 });
             });
         });
@@ -109,39 +135,4 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
         const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(searchValue));
         row.style.display = match ? '' : 'none';
     });
-});
-
-document.getElementById('editUserForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const id = document.getElementById('editUserId').value;
-    const userName = document.getElementById('editUserName').value;
-    const userEmail = document.getElementById('editUserEmail').value;
-    const userAge = document.getElementById('editUserAge').value;
-    const userPhoto = document.getElementById('editUserPhoto').files[0];
-
-    const formData = new FormData();
-    formData.append('userName', userName);
-    formData.append('email', userEmail);
-    formData.append('age', userAge);
-    if (userPhoto) {
-        formData.append('photo', userPhoto);
-    }
-
-    fetch('update-user.php?id=' + id, {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('User updated successfully');
-                loadUsers(); // Reload users to reflect changes
-            } else {
-                alert('Error updating user: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('An error occurred: ' + error.message);
-        });
 });

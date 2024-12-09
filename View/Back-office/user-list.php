@@ -72,7 +72,7 @@ $users = $userController->getAllUsers();
                         <?php foreach ($users as $user): ?>
                         <tr id="user-<?php echo $user['id']; ?>">
                           <td class="py-1">
-                            <img src="../../uploads/<?php echo $user['photo']; ?>" alt="image" />
+                            <img src="uploads/<?php echo $user['photo']; ?>" alt="image" />
                           </td>
                           <td> <?php echo $user['userName']; ?> </td>
                           <td> <?php echo $user['email']; ?> </td>
@@ -80,7 +80,7 @@ $users = $userController->getAllUsers();
                           <td> <?php echo $user['created_at']; ?> </td>
                           <td> <?php echo $user['updated_at']; ?> </td>
                           <td>
-                            <a href="#" class="btn btn-primary edit-user" data-id="<?php echo $user['id']; ?>" data-username="<?php echo $user['userName']; ?>" data-email="<?php echo $user['email']; ?>" data-age="<?php echo $user['age']; ?>">Edit</a>
+                              <button class="btn btn-danger ban-user" data-id="<?php echo $user['id']; ?>">Ban</button>
                             <button class="btn btn-danger delete-user" data-id="<?php echo $user['id']; ?>">Delete</button>
                           </td>
                         </tr>
@@ -101,42 +101,7 @@ $users = $userController->getAllUsers();
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-      <!-- Edit User Modal -->
-      <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="editUserForm">
-                <input type="hidden" id="editUserId">
-                <div class="form-group">
-                  <label for="editUserName">User Name</label>
-                  <input type="text" class="form-control" id="editUserName" required>
-                </div>
-                <div class="form-group">
-                  <label for="editUserEmail">Email</label>
-                  <input type="email" class="form-control" id="editUserEmail" required>
-                </div>
-                <div class="form-group">
-                  <label for="editUserAge">Age</label>
-                  <input type="number" class="form-control" id="editUserAge" required>
-                </div>
-                <div class="form-group">
-                  <label for="editUserPhoto">Profile Photo</label>
-                  <input type="file" class="form-control" id="editUserPhoto">
-                </div>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- container-scroller --
     <!-- plugins:js -->
     <script src="src/assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="src/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>

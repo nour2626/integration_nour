@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userDetails = $userController->authenticateUser($email, $password);
 
     if ($userDetails) {
+        $userController->updateOnlineStatus($userDetails['id'], true);
         $userDetails = $userController->getUser($userDetails['id']);
         $_SESSION['user'] = [
             'id' => $userDetails['id'],
@@ -68,11 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form action="" method="post">
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
+                                <input type="email" id="email" name="email" class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control" required>
+                                <input type="password" id="password" name="password" class="form-control" >
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>

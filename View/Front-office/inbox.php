@@ -36,6 +36,7 @@ if (isset($_GET['receiver_id'])) {
 
 <div class="header">
     <h1 id="header-title">Messenger</h1>
+    <span id="header-status" class="online-status" style="display: none;"></span>
 </div>
 
     <div class="chat-container">
@@ -45,25 +46,28 @@ if (isset($_GET['receiver_id'])) {
         <input type="text" id="search" class="form-control mb-3" placeholder="Search for users...">
     </form>
     <ul>
-        <?php foreach ($users as $user): ?>
-            <li onclick="updateHeader('<?php echo htmlspecialchars($user['userName']); ?>')">
-                <a href="inbox.php?receiver_id=<?php echo $user['id']; ?>">
-                    <img src="../../uploads/<?php echo $user['photo']; ?>" alt="image">
-                    <div>
-                        <strong><?php echo htmlspecialchars($user['userName']); ?></strong>
-                        <p><?php echo htmlspecialchars($user['email']); ?></p>
-                    </div>
-                </a>
-            </li>
-        <?php endforeach; ?>
+<?php foreach ($users as $user): ?>
+    <li data-receiver-id="<?php echo $user['id']; ?>" onclick="handleUserClick('<?php echo $user['id']; ?>', '<?php echo htmlspecialchars($user['userName']); ?>')">
+        <a href="inbox.php?receiver_id=<?php echo $user['id']; ?>">
+            <img src="../../uploads/<?php echo $user['photo']; ?>" alt="image">
+            <div>
+                <?php if ($user['is_online']): ?>
+                    <span class="online-status"></span>
+                <?php endif; ?>
+                <strong><?php echo htmlspecialchars($user['userName']); ?></strong>
+                <p><?php echo htmlspecialchars($user['email']); ?></p>
+            </div>
+        </a>
+    </li>
+<?php endforeach; ?>
     </ul>
 </div>
 
         <div class="chat">
             <div class="messages">
                 <?php foreach ($messages as $message): ?>
-                    <div class="message <?php echo $message['sender_id'] == $_SESSION['user']['id'] ? 'sent' : 'received'; ?>">
-                        <p><strong><?php echo htmlspecialchars($message['sender_name']); ?>:</strong></p>
+                    <div class="">
+                         <p><strong><?php echo htmlspecialchars($message['sender_name']); ?>:</strong></p>
                         <p><?php echo htmlspecialchars($message['content']); ?></p>
                         <span class="timestamp"><?php echo $message['timestamp']; ?></span>
                     </div>
@@ -89,11 +93,14 @@ if (isset($_GET['receiver_id'])) {
             </div>
         </div>
     </div>
+<?php include 'include/footer.php'; ?>
 
 </body>
 </html>
 
 <script>
+
+
 document.getElementById('search').addEventListener('keyup', function() {
     const searchValue = this.value.toLowerCase();
     const rows = document.querySelectorAll('#contactlist li');
@@ -105,7 +112,21 @@ document.getElementById('search').addEventListener('keyup', function() {
     });
 });
 
-function updateHeader(userName) {
-    document.getElementById('header-title').textContent = userName;
+function updateHeader(userName, isOnline) {
+    const headerTitle = document.getElementById('header-title');
+    const headerStatus = document.getElementById('header-status');
+
+    headerTitle.textContent = userName;
+    if (isOnline) {
+        headerStatus.style.display = 'inline-block';
+    } else {
+        headerStatus.style.display = 'none';
+    }
 }
-</script>
+
+function handleUserClick(userId, userName) {
+    // Fetch the user's online status (this should be done via an AJAX call or similar)
+    const isOnline = document.querySelector(`li[data-receiver-id="${userId}"] .online-status`) !== null;
+    updateHeader(userName, isOnline);
+}
+

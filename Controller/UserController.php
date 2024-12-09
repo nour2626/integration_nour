@@ -82,6 +82,14 @@ public function updateUser($id, $userName, $age, $email, $photo = null)
         }
     }
 
+        public function updateOnlineStatus($userId, $status) {
+            $query = "UPDATE users SET is_online = :status WHERE id = :userId";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+
     public function getAllUsers($limit = 10, $offset = 0, $sortField = 'userName', $sortOrder = 'asc') {
         $validSortFields = ['userName', 'email', 'age', 'created_at', 'updated_at'];
         if (!in_array($sortField, $validSortFields)) {
@@ -103,6 +111,20 @@ public function updateUser($id, $userName, $age, $email, $photo = null)
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
+    }
+
+    public function banUser($userId) {
+        $query = "UPDATE users SET banned = 1 WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        return $stmt->execute();
+    }
+
+    public function unbanUser($userId) {
+        $query = "UPDATE users SET banned = 0 WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        return $stmt->execute();
     }
 }
 ?>
