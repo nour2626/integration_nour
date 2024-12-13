@@ -80,7 +80,8 @@ $users = $userController->getAllUsers();
                           <td> <?php echo $user['created_at']; ?> </td>
                           <td> <?php echo $user['updated_at']; ?> </td>
                           <td>
-                              <button class="btn btn-danger ban-user" data-id="<?php echo $user['id']; ?>">Ban</button>
+                              <button class="btn btn-danger ban-user" data-id="${user.id}" style="display: ${user.banned ? 'none' : 'inline-block'};">Ban</button>
+                              <button class="btn btn-success unban-user" data-id="${user.id}" style="display: ${user.banned ? 'inline-block' : 'none'};">Unban</button>
                             <button class="btn btn-danger delete-user" data-id="<?php echo $user['id']; ?>">Delete</button>
                           </td>
                         </tr>
@@ -113,7 +114,7 @@ $users = $userController->getAllUsers();
     <script src="src/assets/js/hoverable-collapse.js"></script>
     <script src="src/assets/js/todolist.js"></script>
     <!-- endinject -->
-    <script src="src/assets/js/user-list.js"></script>
+    <script src="user-list.js"></script>
 
   </body>
 

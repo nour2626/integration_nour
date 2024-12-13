@@ -1,6 +1,6 @@
 <?php
 require '../../vendor/autoload.php';
-require_once 'include/Oauth.php';
+require_once '../../get_oauth_token.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
